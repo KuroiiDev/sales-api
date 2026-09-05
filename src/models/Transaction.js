@@ -21,7 +21,7 @@ export const Transaction = {
                 products ( id, name, price )
                 `
             )
-            .order("id", { ascending: false });
+            .order("created_at", { ascending: false });
         if (error) throw error;
         return data;
     },

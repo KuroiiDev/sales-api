@@ -24,6 +24,20 @@ categories ( id, name )
         return data;
     },
 
+    async getByCategory(categoryId) {
+        const { data, error } = await supabase
+            .from("products")
+            .select(
+                `
+                id, sku, name, description, price, stock, category_id,
+                categories ( id, name )
+                `
+            )
+            .eq("category_id", categoryId);
+        if (error) throw error;
+        return data;
+    },
+
     async create(payload) {
         const { data, error } = await supabase
             .from("products")

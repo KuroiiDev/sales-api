@@ -2,7 +2,20 @@ import { Product } from "../models/Product.js";
 export const ProductController = {
     async getAll(req, res) {
         try {
-            const products = await Product.getAll();
+            const { category_id, categoryId } = req.query;
+            const filterCategory = category_id || categoryId;
+            const products = filterCategory
+                ? await Product.getByCategory(filterCategory)
+                : await Product.getAll();
+            res.json(products);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    },
+    async getByCategory(req, res) {
+        try {
+            const { categoryId } = req.params;
+            const products = await Product.getByCategory(categoryId);
             res.json(products);
         } catch (err) {
             res.status(500).json({ error: err.message });
